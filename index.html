@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gym Tracker</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header>
+    <div class="header-brand">
+      <h1>Gym Tracker</h1>
+      <span class="header-sub">Track your lifts</span>
+    </div>
+    <button id="btn-add-day" onclick="openDayModal()">+ Add Workout Day</button>
+  </header>
+
+  <!-- Tab navigation -->
+  <nav class="tab-bar">
+    <button class="tab active" id="tab-workouts" onclick="switchTab('workouts')">Workouts</button>
+    <button class="tab"        id="tab-progress" onclick="switchTab('progress')">Progress</button>
+  </nav>
+
+  <!-- Workouts view -->
+  <div id="view-workouts">
+    <main id="days-container">
+      <p class="empty-msg" id="empty-msg">No workout days yet. Click "+ Add Workout Day" to get started.</p>
+    </main>
+  </div>
+
+  <!-- Progress view -->
+  <div id="view-progress">
+    <div class="progress-container">
+
+      <div class="progress-controls">
+        <label class="progress-label" for="progress-select">Exercise</label>
+        <select id="progress-select" onchange="renderProgressChart()">
+          <option value="">— select an exercise —</option>
+        </select>
+      </div>
+
+      <div class="progress-stat-row" id="progress-stats">
+        <div class="progress-stat">
+          <span class="stat-label">Best Est. 1RM</span>
+          <span class="stat-value accent" id="stat-best1rm">—</span>
+        </div>
+        <div class="progress-stat">
+          <span class="stat-label">Sessions</span>
+          <span class="stat-value" id="stat-sessions">—</span>
+        </div>
+        <div class="progress-stat">
+          <span class="stat-label">Tracking Since</span>
+          <span class="stat-value" id="stat-first-date">—</span>
+        </div>
+      </div>
+
+      <div class="chart-container" id="chart-container">
+        <canvas id="progress-chart"></canvas>
+      </div>
+
+      <p id="progress-empty" class="empty-msg">Select an exercise above to see your 1RM progress.</p>
+
+    </div>
+  </div>
+
+  <!-- Modal: Add/Edit Workout Day -->
+  <div id="day-modal" class="modal-overlay" onclick="closeDayModal(event)">
+    <div class="modal">
+      <h2 id="day-modal-title">Add Workout Day</h2>
+      <label>Day Name</label>
+      <input id="day-name-input" type="text" placeholder="e.g. Push Day, Leg Day..." maxlength="40" />
+      <div class="modal-actions">
+        <button class="btn-secondary" onclick="closeDayModal()">Cancel</button>
+        <button class="btn-primary" onclick="saveDay()">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Add/Edit Exercise -->
+  <div id="exercise-modal" class="modal-overlay" onclick="closeExerciseModal(event)">
+    <div class="modal">
+      <h2 id="exercise-modal-title">Add Exercise</h2>
+      <label>Exercise Name *</label>
+      <input id="ex-name" type="text" placeholder="e.g. Bench Press" maxlength="60" />
+      <div class="row">
+        <div>
+          <label>Weight *</label>
+          <div class="weight-unit-row">
+            <input id="ex-weight" type="number" min="0" step="0.5" placeholder="e.g. 60" />
+            <select id="ex-unit">
+              <option value="kg">kg</option>
+              <option value="lbs">lbs</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <label>Sets *</label>
+          <input id="ex-sets" type="number" min="1" step="1" placeholder="e.g. 3" />
+        </div>
+        <div>
+          <label>Reps *</label>
+          <input id="ex-reps" type="number" min="1" step="1" placeholder="e.g. 10" />
+        </div>
+      </div>
+      <label>Notes (optional)</label>
+      <input id="ex-notes" type="text" placeholder="e.g. Felt strong today" maxlength="120" />
+      <p id="ex-error" class="error-msg"></p>
+      <div class="modal-actions">
+        <button class="btn-secondary" onclick="closeExerciseModal()">Cancel</button>
+        <button class="btn-primary" onclick="saveExercise()">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Quick Update -->
+  <div id="update-modal" class="modal-overlay" onclick="closeUpdateModal(event)">
+    <div class="modal">
+      <h2 id="upd-modal-title">Update Exercise</h2>
+      <p class="upd-hint">Enter your new values. Previous values will be saved to history.</p>
+      <p id="upd-1rm-ref" class="upd-1rm-ref"></p>
+      <div class="row">
+        <div>
+          <label>Weight (<span id="upd-unit-label">kg</span>) *</label>
+          <input id="upd-weight" type="number" min="0" step="0.5" placeholder="e.g. 65" />
+        </div>
+        <div>
+          <label>Sets *</label>
+          <input id="upd-sets" type="number" min="1" step="1" placeholder="e.g. 3" />
+        </div>
+        <div>
+          <label>Reps *</label>
+          <input id="upd-reps" type="number" min="1" step="1" placeholder="e.g. 10" />
+        </div>
+      </div>
+      <p id="upd-error" class="error-msg"></p>
+      <div class="modal-actions">
+        <button class="btn-secondary" onclick="closeUpdateModal()">Cancel</button>
+        <button class="btn-primary" onclick="saveUpdate()">Save Update</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
