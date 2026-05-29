@@ -385,6 +385,22 @@ main {
 }
 .icon-btn:active { transform: scale(0.86); }
 
+.btn-log {
+  background: rgba(57,231,95,0.12);
+  color: var(--accent);
+  border: 1px solid rgba(57,231,95,0.32);
+  border-radius: 6px;
+  padding: 0.28rem 0.55rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  cursor: pointer;
+  letter-spacing: 0.2px;
+  white-space: nowrap;
+  transition: background 0.15s, transform 0.1s;
+}
+.btn-log:hover  { background: rgba(57,231,95,0.22); }
+.btn-log:active { transform: scale(0.92); }
+
 .icon-btn.update { color: var(--accent); }
 .icon-btn.update:hover { background: rgba(57,231,95,0.12); border-color: rgba(57,231,95,0.28); }
 
@@ -470,6 +486,7 @@ main {
   appearance: none;
   -webkit-appearance: none;
 }
+.modal input[type="date"] { color-scheme: dark; }
 .modal input::placeholder { color: var(--text-3); }
 .modal input:focus,
 .modal select:focus {

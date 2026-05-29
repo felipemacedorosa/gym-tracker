@@ -113,12 +113,16 @@
     </div>
   </div>
 
-  <!-- Modal: Quick Update -->
+  <!-- Modal: Log Session -->
   <div id="update-modal" class="modal-overlay" onclick="closeUpdateModal(event)">
     <div class="modal">
-      <h2 id="upd-modal-title">Update Exercise</h2>
-      <p class="upd-hint">Enter your new values. Previous values will be saved to history.</p>
+      <h2 id="upd-modal-title">Log Session</h2>
+      <p class="upd-hint">Log what you actually did. Previous values will be saved to history.</p>
       <p id="upd-1rm-ref" class="upd-1rm-ref"></p>
+      <div>
+        <label>Date</label>
+        <input id="log-date" type="date" />
+      </div>
       <div class="row">
         <div>
           <label>Weight (<span id="upd-unit-label">kg</span>) *</label>
@@ -136,7 +140,7 @@
       <p id="upd-error" class="error-msg"></p>
       <div class="modal-actions">
         <button class="btn-secondary" onclick="closeUpdateModal()">Cancel</button>
-        <button class="btn-primary" onclick="saveUpdate()">Save Update</button>
+        <button class="btn-primary" onclick="saveUpdate()">Log</button>
       </div>
     </div>
   </div>

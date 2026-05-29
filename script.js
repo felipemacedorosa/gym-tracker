@@ -13,10 +13,28 @@ function uid() {
   return Date.now().toString(36) + Math.random().toString(36).slice(2);
 }
 
-// Epley-variant 1RM formula: weight / (1.0278 – 0.0278 × reps)
-function calc1RM(weight, reps) {
+// Epley-variant 1RM; each extra set adds ~2.5% to account for accumulated fatigue
+function calc1RM(weight, reps, sets = 1) {
   if (reps <= 1) return weight;
-  return weight / (1.0278 - 0.0278 * reps);
+  const base = weight / (1.0278 - 0.0278 * reps);
+  return base * (1 + (sets - 1) * 0.025);
+}
+
+function todayISO() {
+  return new Date().toISOString().slice(0, 10);
+}
+
+// Handles both ISO (YYYY-MM-DD) stored going forward and old locale strings in existing data
+function fmtDate(d) {
+  if (!d) return '';
+  if (/^\d{4}-\d{2}-\d{2}$/.test(d)) return new Date(d + 'T00:00').toLocaleDateString();
+  return d;
+}
+
+function parseDate(d) {
+  if (!d) return new Date(0);
+  if (/^\d{4}-\d{2}-\d{2}$/.test(d)) return new Date(d + 'T00:00');
+  return new Date(d);
 }
 
 // ── Render ────────────────────────────────────────────────────
@@ -84,7 +102,7 @@ function buildExerciseHTML(ex, dayId) {
     </div>
     <div class="history-list" id="history-${ex.id}">
       ${history.slice().reverse().map(h => `
-        <div class="history-entry">${h.date} — ${h.sets}×${h.reps} @ ${h.weight} ${unit}</div>
+        <div class="history-entry">${fmtDate(h.date)} — ${h.sets}×${h.reps} @ ${h.weight} ${unit}</div>
       `).join('')}
     </div>` : '';
 
@@ -94,12 +112,12 @@ function buildExerciseHTML(ex, dayId) {
         <div class="exercise-name">${escHtml(ex.name)}</div>
         <div class="exercise-stats">${ex.sets} sets × ${ex.reps} reps @ ${ex.weight} ${unit}</div>
         <div class="exercise-volume">Volume: ${volume.toLocaleString()} ${unit}</div>
-        <div class="exercise-1rm">Est. 1RM: ~${calc1RM(ex.weight, ex.reps).toFixed(1)} ${unit}</div>
+        <div class="exercise-1rm">Est. 1RM: ~${calc1RM(ex.weight, ex.reps, ex.sets).toFixed(1)} ${unit}</div>
         ${notesHtml}
         ${historyHtml}
       </div>
       <div class="exercise-actions">
-        <button class="icon-btn update" title="Log new weight/reps/sets" onclick="openUpdateModal('${dayId}', '${ex.id}')">🔄</button>
+        <button class="btn-log" title="Log a session" onclick="openUpdateModal('${dayId}', '${ex.id}')">+ Log</button>
         <button class="icon-btn edit" title="Edit exercise" onclick="openExerciseModal('${dayId}', '${ex.id}')">✏️</button>
         <button class="icon-btn del" title="Delete exercise" onclick="deleteExercise('${dayId}', '${ex.id}')">🗑️</button>
       </div>
@@ -281,14 +299,15 @@ function openUpdateModal(dayId, exId) {
   if (!ex) return;
 
   const unit = ex.unit || 'kg';
-  document.getElementById('upd-modal-title').textContent = `Update: ${ex.name}`;
+  document.getElementById('upd-modal-title').textContent = `Log: ${ex.name}`;
   document.getElementById('upd-unit-label').textContent  = unit;
   document.getElementById('upd-weight').value = ex.weight;
   document.getElementById('upd-sets').value   = ex.sets;
   document.getElementById('upd-reps').value   = ex.reps;
+  document.getElementById('log-date').value   = todayISO();
   document.getElementById('upd-error').textContent  = '';
   document.getElementById('upd-1rm-ref').textContent =
-    `Current est. 1RM: ~${calc1RM(ex.weight, ex.reps).toFixed(1)} ${unit}`;
+    `Current est. 1RM: ~${calc1RM(ex.weight, ex.reps, ex.sets).toFixed(1)} ${unit}`;
 
   document.getElementById('update-modal').classList.add('open');
   setTimeout(() => document.getElementById('upd-weight').focus(), 50);
@@ -305,6 +324,7 @@ function saveUpdate() {
   const weight  = parseFloat(document.getElementById('upd-weight').value);
   const sets    = parseInt(document.getElementById('upd-sets').value, 10);
   const reps    = parseInt(document.getElementById('upd-reps').value, 10);
+  const dateVal = document.getElementById('log-date').value || todayISO();
   const errorEl = document.getElementById('upd-error');
 
   if (isNaN(weight) || weight < 0) { errorEl.textContent = 'Enter a valid weight (0 or more).'; return; }
@@ -318,13 +338,12 @@ function saveUpdate() {
 
   // Push current values into history before overwriting
   if (!ex.history) ex.history = [];
-  const today = new Date().toLocaleDateString();
-  ex.history.push({ weight: ex.weight, reps: ex.reps, sets: ex.sets, date: today });
+  ex.history.push({ weight: ex.weight, reps: ex.reps, sets: ex.sets, date: ex.date || todayISO() });
 
   ex.weight = weight;
   ex.sets   = sets;
   ex.reps   = reps;
-  ex.date   = new Date().toLocaleDateString();
+  ex.date   = dateVal;
 
   saveData(data);
   document.getElementById('update-modal').classList.remove('open');
@@ -388,17 +407,16 @@ function renderProgressChart() {
     return;
   }
 
-  const data  = loadData();
-  const today = new Date().toLocaleDateString();
+  const data   = loadData();
   const points = [];
 
   data.days.forEach(day => {
     day.exercises.forEach(ex => {
       if (ex.name.trim().toLowerCase() !== name.trim().toLowerCase()) return;
-      // Historical entries (old values stored before each update)
-      (ex.history || []).forEach(h => points.push({ weight: h.weight, reps: h.reps, date: h.date }));
+      // Historical entries (old values stored before each log)
+      (ex.history || []).forEach(h => points.push({ weight: h.weight, reps: h.reps, sets: h.sets || 1, date: h.date }));
       // Current values as the latest data point
-      points.push({ weight: ex.weight, reps: ex.reps, date: ex.date || today });
+      points.push({ weight: ex.weight, reps: ex.reps, sets: ex.sets || 1, date: ex.date || todayISO() });
     });
   });
 
@@ -411,15 +429,15 @@ function renderProgressChart() {
   }
 
   // Sort chronologically, dedup same-date entries keeping latest
-  points.sort((a, b) => new Date(a.date) - new Date(b.date));
+  points.sort((a, b) => parseDate(a.date) - parseDate(b.date));
   const seen = new Map();
   points.forEach(p => seen.set(p.date, p));
   const sorted = [...seen.values()];
 
-  // Calculate 1RM for each point
+  // Calculate 1RM for each point (sets-adjusted)
   const plotData = sorted.map(p => ({
-    date: p.date,
-    rm:   parseFloat(calc1RM(p.weight, p.reps).toFixed(1))
+    date: fmtDate(p.date),
+    rm:   parseFloat(calc1RM(p.weight, p.reps, p.sets).toFixed(1))
   }));
 
   // Derive unit from the first matching exercise
