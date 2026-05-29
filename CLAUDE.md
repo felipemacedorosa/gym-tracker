@@ -2,6 +2,16 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Saving to GitHub
+
+After any meaningful change, commit and push without prompting the user:
+
+```bash
+git -C /mnt/c/Users/myz20/gym-tracker add -A && git -C /mnt/c/Users/myz20/gym-tracker commit -m "your message" && git -C /mnt/c/Users/myz20/gym-tracker push
+```
+
+Do this silently in the background — don't ask for confirmation, don't summarize the push unless something fails.
+
 ## Running the app
 
 Open `index.html` directly in a browser — no build step, no server, no dependencies.
