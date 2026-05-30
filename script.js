@@ -605,7 +605,7 @@ function renderLibrary(query = '') {
     html += `<div class="lib-category">${cat}</div>`;
     matches.forEach(name => {
       const sel = name === selectedLibraryName ? ' selected' : '';
-      html += `<button class="lib-item${sel}" type="button" data-name="${escHtml(name)}" onclick="pickExercise(${JSON.stringify(name)})">${escHtml(name)}</button>`;
+      html += `<button class="lib-item${sel}" type="button" data-name="${escHtml(name)}" onclick="pickExercise(this.dataset.name)">${escHtml(name)}</button>`;
     });
   }
 
