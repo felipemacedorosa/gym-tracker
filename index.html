@@ -87,7 +87,12 @@
 
       <!-- Library picker (hidden in edit mode) -->
       <div id="lib-section">
-        <button class="lib-toggle" id="lib-toggle" type="button" onclick="toggleLibrary()">Browse exercise library ▸</button>
+        <button class="lib-toggle" id="lib-toggle" type="button" onclick="toggleLibrary()">
+          <span>Browse exercise library</span>
+          <span class="lib-chevron">
+            <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
+          </span>
+        </button>
         <div class="lib-panel" id="lib-panel">
           <input type="text" id="lib-search" placeholder="Search exercises…" oninput="filterLibrary()" autocomplete="off"
                  onkeydown="if(event.key==='Enter')event.stopPropagation()" />

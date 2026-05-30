@@ -308,7 +308,9 @@ main {
    HISTORY — smooth expand/collapse via max-height
 ═══════════════════════════════════════════════════════════ */
 .history-toggle {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
   font-size: 0.71rem;
   color: var(--blue);
   cursor: pointer;
@@ -317,6 +319,15 @@ main {
   transition: opacity 0.15s;
 }
 .history-toggle:hover { opacity: 0.72; }
+
+.history-chevron {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+.history-chevron svg { stroke: var(--blue); }
+.history-chevron.open { transform: rotate(90deg); }
 
 .history-list {
   max-height: 0;
@@ -387,6 +398,7 @@ main {
   font-size: 0.78rem;
   transition: background 0.15s, border-color 0.15s, transform 0.1s;
 }
+.icon-btn svg { display: block; }
 .icon-btn:active { transform: scale(0.86); }
 
 .btn-log {
@@ -610,7 +622,9 @@ main {
 ═══════════════════════════════════════════════════════════ */
 .lib-toggle {
   width: 100%;
-  text-align: left;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   background: rgba(250, 204, 21, 0.04);
   border: 1px dashed rgba(250, 204, 21, 0.30);
   border-radius: var(--r-sm);
@@ -626,6 +640,14 @@ main {
   background: rgba(250, 204, 21, 0.10);
   border-color: rgba(250, 204, 21, 0.52);
 }
+
+.lib-chevron {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  transition: transform 0.25s ease;
+}
+.lib-toggle.open .lib-chevron { transform: rotate(90deg); }
 
 .lib-panel {
   max-height: 0;
@@ -850,6 +872,9 @@ main {
 ═══════════════════════════════════════════════════════════ */
 .btn-log-all {
   font-family: 'Space Grotesk', system-ui, sans-serif;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.32rem;
   background: rgba(250, 204, 21, 0.10);
   color: var(--accent);
   border: 1px solid rgba(250, 204, 21, 0.30);
@@ -862,6 +887,7 @@ main {
   white-space: nowrap;
   transition: background 0.15s, border-color 0.15s, transform 0.1s;
 }
+.btn-log-all svg { display: block; }
 .btn-log-all:hover  { background: rgba(250, 204, 21, 0.20); border-color: rgba(250, 204, 21, 0.50); }
 .btn-log-all:active { transform: scale(0.93); }
 

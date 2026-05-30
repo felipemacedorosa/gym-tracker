@@ -1,3 +1,11 @@
+// ── Inline SVG icons ──────────────────────────────────────────
+const ICONS = {
+  edit: `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>`,
+  trash: `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>`,
+  logAll: `<svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>`,
+  chevronRight: `<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>`,
+};
+
 // ── Data helpers ──────────────────────────────────────────────
 
 function loadData() {
@@ -71,9 +79,9 @@ function buildDayCard(day) {
     <div class="day-header">
       <h2>${escHtml(day.name)}</h2>
       <div class="day-header-actions">
-        <button class="btn-log-all" onclick="openLogAllModal('${day.id}')">⚡ Log All</button>
-        <button class="icon-btn edit-day" title="Edit day name" onclick="openDayModal('${day.id}')">✏️</button>
-        <button class="icon-btn del-day" title="Delete day" onclick="deleteDay('${day.id}')">🗑️</button>
+        <button class="btn-log-all" onclick="openLogAllModal('${day.id}')">${ICONS.logAll} Log All</button>
+        <button class="icon-btn edit-day" title="Edit day name" onclick="openDayModal('${day.id}')">${ICONS.edit}</button>
+        <button class="icon-btn del-day" title="Delete day" onclick="deleteDay('${day.id}')">${ICONS.trash}</button>
       </div>
     </div>
     <div class="day-body">
@@ -99,7 +107,7 @@ function buildExerciseHTML(ex, dayId) {
 
   const historyHtml = history.length > 0 ? `
     <div class="history-toggle" onclick="toggleHistory('${ex.id}')">
-      ▸ ${history.length} previous entr${history.length === 1 ? 'y' : 'ies'}
+      <span class="history-chevron">${ICONS.chevronRight}</span>${history.length} previous entr${history.length === 1 ? 'y' : 'ies'}
     </div>
     <div class="history-list" id="history-${ex.id}">
       ${history.slice().reverse().map(h => `
@@ -119,8 +127,8 @@ function buildExerciseHTML(ex, dayId) {
       </div>
       <div class="exercise-actions">
         <button class="btn-log" title="Log a session" onclick="openUpdateModal('${dayId}', '${ex.id}')">+ Log</button>
-        <button class="icon-btn edit" title="Edit exercise" onclick="openExerciseModal('${dayId}', '${ex.id}')">✏️</button>
-        <button class="icon-btn del" title="Delete exercise" onclick="deleteExercise('${dayId}', '${ex.id}')">🗑️</button>
+        <button class="icon-btn edit" title="Edit exercise" onclick="openExerciseModal('${dayId}', '${ex.id}')">${ICONS.edit}</button>
+        <button class="icon-btn del" title="Delete exercise" onclick="deleteExercise('${dayId}', '${ex.id}')">${ICONS.trash}</button>
       </div>
     </div>
   `;
@@ -363,7 +371,10 @@ function toggleHistory(exId) {
   if (!el) return;
   const isNowOpen = el.classList.toggle('open');
   const toggle = el.previousElementSibling;
-  if (toggle) toggle.textContent = toggle.textContent.replace(isNowOpen ? '▸' : '▾', isNowOpen ? '▾' : '▸');
+  if (toggle) {
+    const chevron = toggle.querySelector('.history-chevron');
+    if (chevron) chevron.classList.toggle('open', isNowOpen);
+  }
 }
 
 // ── Tab navigation ────────────────────────────────────────────
@@ -729,7 +740,7 @@ function toggleLibrary() {
   const panel = document.getElementById('lib-panel');
   const btn   = document.getElementById('lib-toggle');
   const open  = panel.classList.toggle('open');
-  btn.textContent = open ? 'Browse exercise library ▾' : 'Browse exercise library ▸';
+  btn.classList.toggle('open', open);
   if (open) {
     document.getElementById('lib-search').value = '';
     renderLibrary(); // respects selectedLibraryName for highlight
@@ -740,11 +751,11 @@ function toggleLibrary() {
 function pickExercise(name) {
   selectedLibraryName = name;
   document.getElementById('ex-name').value = name;
-  // Update highlight in-place without closing the panel
   document.querySelectorAll('#lib-list .lib-item').forEach(btn => {
     btn.classList.toggle('selected', btn.dataset.name === name);
   });
   updateLibHint();
+  // Keep panel open; chevron stays rotated via .open class on button
 }
 
 function onExNameInput() {
@@ -767,7 +778,7 @@ function updateLibHint() {
 function resetLibrary() {
   selectedLibraryName = '';
   document.getElementById('lib-panel').classList.remove('open');
-  document.getElementById('lib-toggle').textContent = 'Browse exercise library ▸';
+  document.getElementById('lib-toggle').classList.remove('open');
   const hint = document.getElementById('ex-lib-hint');
   if (hint) hint.textContent = '';
 }
