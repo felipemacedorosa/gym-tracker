@@ -4,6 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Gym Tracker</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -155,6 +158,24 @@
       <div class="modal-actions">
         <button class="btn-secondary" onclick="closeUpdateModal()">Cancel</button>
         <button class="btn-primary" onclick="saveUpdate()">Log</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Log All -->
+  <div id="log-all-modal" class="modal-overlay" onclick="closeLogAllModal(event)">
+    <div class="modal modal--wide">
+      <h2 id="log-all-title">Log All</h2>
+      <p class="upd-hint">Update all exercises for today. Previous values are saved to history.</p>
+      <div>
+        <label>Date</label>
+        <input id="log-all-date" type="date" />
+      </div>
+      <div class="log-all-rows" id="log-all-rows"></div>
+      <p id="log-all-error" class="error-msg"></p>
+      <div class="modal-actions">
+        <button class="btn-secondary" onclick="closeLogAllModal()">Cancel</button>
+        <button class="btn-primary" onclick="saveLogAll()">Log All</button>
       </div>
     </div>
   </div>

@@ -71,6 +71,7 @@ function buildDayCard(day) {
     <div class="day-header">
       <h2>${escHtml(day.name)}</h2>
       <div class="day-header-actions">
+        <button class="btn-log-all" onclick="openLogAllModal('${day.id}')">⚡ Log All</button>
         <button class="icon-btn edit-day" title="Edit day name" onclick="openDayModal('${day.id}')">✏️</button>
         <button class="icon-btn del-day" title="Delete day" onclick="deleteDay('${day.id}')">🗑️</button>
       </div>
@@ -579,6 +580,109 @@ function drawChart(canvas, data, unit) {
   });
 }
 
+// ── Log All modal ─────────────────────────────────────────────
+
+let logAllDayId = null;
+
+function openLogAllModal(dayId) {
+  const data = loadData();
+  const day  = data.days.find(d => d.id === dayId);
+  if (!day || !day.exercises.length) {
+    alert('Add exercises to this day before logging.');
+    return;
+  }
+
+  logAllDayId = dayId;
+  document.getElementById('log-all-title').textContent = `Log All — ${day.name}`;
+  document.getElementById('log-all-date').value = todayISO();
+  document.getElementById('log-all-error').textContent = '';
+
+  const rowsEl = document.getElementById('log-all-rows');
+  rowsEl.innerHTML = day.exercises.map((ex, i) => {
+    const unit = ex.unit || 'kg';
+    return `
+      <div class="log-all-row" data-ex-id="${ex.id}" data-idx="${i}">
+        <div class="log-all-ex-name">${escHtml(ex.name)}</div>
+        <div class="row">
+          <div>
+            <label>Weight (${unit})</label>
+            <input type="number" class="log-all-weight" value="${ex.weight}" min="0" step="0.5" />
+          </div>
+          <div>
+            <label>Sets</label>
+            <input type="number" class="log-all-sets" value="${ex.sets}" min="1" step="1" />
+          </div>
+          <div>
+            <label>Reps</label>
+            <input type="number" class="log-all-reps" value="${ex.reps}" min="1" step="1" />
+          </div>
+        </div>
+        <div>
+          <label>Notes (optional)</label>
+          <input type="text" class="log-all-notes" placeholder="Optional notes" maxlength="120" />
+        </div>
+      </div>`;
+  }).join('');
+
+  // Set text values via property (safe for any character)
+  day.exercises.forEach((ex, i) => {
+    const row = rowsEl.querySelector(`[data-idx="${i}"]`);
+    if (row) row.querySelector('.log-all-notes').value = ex.notes || '';
+  });
+
+  document.getElementById('log-all-modal').classList.add('open');
+  setTimeout(() => rowsEl.querySelector('.log-all-weight').focus(), 50);
+}
+
+function closeLogAllModal(event) {
+  if (event && event.target !== document.getElementById('log-all-modal')) return;
+  document.getElementById('log-all-modal').classList.remove('open');
+  logAllDayId = null;
+}
+
+function saveLogAll() {
+  const dateVal = document.getElementById('log-all-date').value || todayISO();
+  const errorEl = document.getElementById('log-all-error');
+  const rows    = document.querySelectorAll('#log-all-rows .log-all-row');
+
+  const updates = [];
+  for (const row of rows) {
+    const exId   = row.dataset.exId;
+    const name   = row.querySelector('.log-all-ex-name').textContent;
+    const weight = parseFloat(row.querySelector('.log-all-weight').value);
+    const sets   = parseInt(row.querySelector('.log-all-sets').value, 10);
+    const reps   = parseInt(row.querySelector('.log-all-reps').value, 10);
+    const notes  = row.querySelector('.log-all-notes').value.trim();
+
+    if (isNaN(weight) || weight < 0) { errorEl.textContent = `Invalid weight for "${name}".`; return; }
+    if (isNaN(sets)   || sets < 1)   { errorEl.textContent = `Invalid sets for "${name}".`;   return; }
+    if (isNaN(reps)   || reps < 1)   { errorEl.textContent = `Invalid reps for "${name}".`;   return; }
+    updates.push({ exId, weight, sets, reps, notes });
+  }
+
+  errorEl.textContent = '';
+  const data = loadData();
+  const day  = data.days.find(d => d.id === logAllDayId);
+  if (!day) return;
+
+  updates.forEach(u => {
+    const ex = day.exercises.find(e => e.id === u.exId);
+    if (!ex) return;
+    if (!ex.history) ex.history = [];
+    ex.history.push({ weight: ex.weight, reps: ex.reps, sets: ex.sets, date: ex.date || todayISO() });
+    ex.weight = u.weight;
+    ex.sets   = u.sets;
+    ex.reps   = u.reps;
+    ex.notes  = u.notes;
+    ex.date   = dateVal;
+  });
+
+  saveData(data);
+  document.getElementById('log-all-modal').classList.remove('open');
+  logAllDayId = null;
+  render();
+}
+
 // ── Exercise library ──────────────────────────────────────────
 
 const EXERCISE_LIBRARY = {
@@ -675,8 +779,9 @@ document.addEventListener('keydown', e => {
     document.getElementById('day-modal').classList.remove('open');
     document.getElementById('exercise-modal').classList.remove('open');
     document.getElementById('update-modal').classList.remove('open');
+    document.getElementById('log-all-modal').classList.remove('open');
+    logAllDayId = null;
   }
-  // Submit modals with Enter
   if (e.key === 'Enter') {
     if (document.getElementById('day-modal').classList.contains('open'))      saveDay();
     if (document.getElementById('exercise-modal').classList.contains('open')) saveExercise();
