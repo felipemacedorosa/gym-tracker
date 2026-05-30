@@ -510,8 +510,8 @@ function drawChart(canvas, data, unit) {
 
   // Gradient fill under the line
   const grad = ctx.createLinearGradient(0, PAD.top, 0, PAD.top + H);
-  grad.addColorStop(0, 'rgba(57,231,95,0.18)');
-  grad.addColorStop(1, 'rgba(57,231,95,0.00)');
+  grad.addColorStop(0, 'rgba(250,204,21,0.18)');
+  grad.addColorStop(1, 'rgba(250,204,21,0.00)');
   ctx.beginPath();
   data.forEach((d, i) => {
     const x = xOf(i), y = yOf(d.rm);
@@ -524,7 +524,7 @@ function drawChart(canvas, data, unit) {
   ctx.fill();
 
   // Line
-  ctx.strokeStyle = '#39e75f';
+  ctx.strokeStyle = '#FACC15';
   ctx.lineWidth   = 2.5;
   ctx.lineJoin    = 'round';
   ctx.beginPath();
@@ -542,13 +542,13 @@ function drawChart(canvas, data, unit) {
     // Outer glow ring
     ctx.beginPath();
     ctx.arc(x, y, 7, 0, Math.PI * 2);
-    ctx.fillStyle = 'rgba(57,231,95,0.18)';
+    ctx.fillStyle = 'rgba(250,204,21,0.18)';
     ctx.fill();
 
     // Dot
     ctx.beginPath();
     ctx.arc(x, y, 4.5, 0, Math.PI * 2);
-    ctx.fillStyle   = '#39e75f';
+    ctx.fillStyle   = '#FACC15';
     ctx.fill();
     ctx.strokeStyle = '#07070d';
     ctx.lineWidth   = 1.5;
