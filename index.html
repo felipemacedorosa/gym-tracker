@@ -81,6 +81,17 @@
   <div id="exercise-modal" class="modal-overlay" onclick="closeExerciseModal(event)">
     <div class="modal">
       <h2 id="exercise-modal-title">Add Exercise</h2>
+
+      <!-- Library picker (hidden in edit mode) -->
+      <div id="lib-section">
+        <button class="lib-toggle" id="lib-toggle" type="button" onclick="toggleLibrary()">Browse exercise library ▸</button>
+        <div class="lib-panel" id="lib-panel">
+          <input type="text" id="lib-search" placeholder="Search exercises…" oninput="filterLibrary()" autocomplete="off"
+                 onkeydown="if(event.key==='Enter')event.stopPropagation()" />
+          <div class="lib-list" id="lib-list"></div>
+        </div>
+      </div>
+
       <label>Exercise Name *</label>
       <input id="ex-name" type="text" placeholder="e.g. Bench Press" maxlength="60" />
       <div class="row">

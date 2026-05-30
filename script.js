@@ -228,6 +228,10 @@ function openExerciseModal(dayId, exerciseId) {
     document.getElementById('ex-notes').value  = '';
   }
 
+  // Library: hide when editing an existing exercise; always reset state
+  document.getElementById('lib-section').style.display = editingExerciseId ? 'none' : '';
+  resetLibrary();
+
   modal.classList.add('open');
   setTimeout(() => document.getElementById('ex-name').focus(), 50);
 }
@@ -235,6 +239,7 @@ function openExerciseModal(dayId, exerciseId) {
 function closeExerciseModal(event) {
   if (event && event.target !== document.getElementById('exercise-modal')) return;
   document.getElementById('exercise-modal').classList.remove('open');
+  resetLibrary();
   targetDayId = null;
   editingExerciseId = null;
 }
@@ -572,6 +577,64 @@ function drawChart(canvas, data, unit) {
       ctx.restore();
     }
   });
+}
+
+// ── Exercise library ──────────────────────────────────────────
+
+const EXERCISE_LIBRARY = {
+  'Chest':     ['Bench Press','Incline Bench Press','Dumbbell Bench Press','Incline Dumbbell Press','Chest Fly','Cable Fly','Push-Ups','Dips'],
+  'Back':      ['Pull-Ups','Lat Pulldown','Barbell Row','Dumbbell Row','Seated Cable Row','T-Bar Row','Deadlift','Face Pull'],
+  'Shoulders': ['Shoulder Press','Dumbbell Shoulder Press','Lateral Raise','Rear Delt Fly','Front Raise','Arnold Press','Shrugs'],
+  'Arms':      ['Barbell Curl','Dumbbell Curl','Hammer Curl','Preacher Curl','Tricep Pushdown','Skull Crushers','Overhead Tricep Extension','Close-Grip Bench Press'],
+  'Legs':      ['Squat','Leg Press','Romanian Deadlift','Leg Extension','Leg Curl','Walking Lunges','Calf Raise','Hip Thrust'],
+  'Core':      ['Plank','Hanging Leg Raise','Cable Crunch','Russian Twist','Sit-Ups','Ab Wheel Rollout']
+};
+
+function renderLibrary(query = '') {
+  const q    = query.trim().toLowerCase();
+  const list = document.getElementById('lib-list');
+  let html = '';
+  let any  = false;
+
+  for (const [cat, exercises] of Object.entries(EXERCISE_LIBRARY)) {
+    const matches = q ? exercises.filter(e => e.toLowerCase().includes(q)) : exercises;
+    if (!matches.length) continue;
+    any = true;
+    html += `<div class="lib-category">${cat}</div>`;
+    matches.forEach(name => {
+      html += `<button class="lib-item" type="button" onclick="pickExercise(${JSON.stringify(name)})">${escHtml(name)}</button>`;
+    });
+  }
+
+  list.innerHTML = any ? html : '<p class="lib-empty">No exercises match.</p>';
+}
+
+function filterLibrary() {
+  renderLibrary(document.getElementById('lib-search').value);
+}
+
+function toggleLibrary() {
+  const panel = document.getElementById('lib-panel');
+  const btn   = document.getElementById('lib-toggle');
+  const open  = panel.classList.toggle('open');
+  btn.textContent = open ? 'Browse exercise library ▾' : 'Browse exercise library ▸';
+  if (open) {
+    renderLibrary();
+    document.getElementById('lib-search').value = '';
+    setTimeout(() => document.getElementById('lib-search').focus(), 50);
+  }
+}
+
+function pickExercise(name) {
+  document.getElementById('ex-name').value = name;
+  document.getElementById('lib-panel').classList.remove('open');
+  document.getElementById('lib-toggle').textContent = 'Browse exercise library ▸';
+  setTimeout(() => document.getElementById('ex-weight').focus(), 50);
+}
+
+function resetLibrary() {
+  document.getElementById('lib-panel').classList.remove('open');
+  document.getElementById('lib-toggle').textContent = 'Browse exercise library ▸';
 }
 
 // ── Keyboard shortcuts ────────────────────────────────────────

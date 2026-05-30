@@ -598,6 +598,100 @@ main {
 }
 
 /* ═══════════════════════════════════════════════════════════
+   EXERCISE LIBRARY PICKER
+═══════════════════════════════════════════════════════════ */
+.lib-toggle {
+  width: 100%;
+  text-align: left;
+  background: rgba(250, 204, 21, 0.04);
+  border: 1px dashed rgba(250, 204, 21, 0.30);
+  border-radius: var(--r-sm);
+  color: var(--accent);
+  font-size: 0.82rem;
+  font-weight: 600;
+  font-family: inherit;
+  padding: 0.46rem 0.85rem;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+.lib-toggle:hover {
+  background: rgba(250, 204, 21, 0.10);
+  border-color: rgba(250, 204, 21, 0.52);
+}
+
+.lib-panel {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height 0.35s ease, opacity 0.25s ease, margin-top 0.25s ease;
+  margin-top: 0;
+}
+.lib-panel.open {
+  max-height: 270px;
+  opacity: 1;
+  margin-top: 0.6rem;
+}
+
+#lib-search {
+  width: 100%;
+  padding: 0.5rem 0.85rem;
+  background: rgba(5, 5, 10, 0.80);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: var(--r-sm);
+  color: var(--text);
+  font-size: 0.88rem;
+  font-family: inherit;
+  outline: none;
+  margin-bottom: 0.45rem;
+  transition: border-color 0.2s;
+}
+#lib-search:focus  { border-color: var(--accent); }
+#lib-search::placeholder { color: var(--text-3); }
+
+.lib-list {
+  overflow-y: auto;
+  max-height: 192px;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(250, 204, 21, 0.22) transparent;
+}
+
+.lib-category {
+  font-size: 0.63rem;
+  font-weight: 800;
+  color: var(--text-3);
+  letter-spacing: 1.1px;
+  text-transform: uppercase;
+  padding: 0.5rem 0.6rem 0.18rem;
+}
+
+.lib-item {
+  background: none;
+  border: none;
+  color: var(--text-2);
+  font-size: 0.87rem;
+  font-family: inherit;
+  text-align: left;
+  padding: 0.40rem 0.75rem;
+  border-radius: var(--r-sm);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+.lib-item:hover {
+  background: rgba(250, 204, 21, 0.10);
+  color: var(--text);
+}
+.lib-item:active { background: rgba(250, 204, 21, 0.18); }
+
+.lib-empty {
+  font-size: 0.82rem;
+  color: var(--text-3);
+  padding: 0.4rem 0.6rem;
+}
+
+/* ═══════════════════════════════════════════════════════════
    TAB BAR
 ═══════════════════════════════════════════════════════════ */
 .tab-bar {
