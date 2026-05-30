@@ -92,8 +92,11 @@
         </div>
       </div>
 
-      <label>Exercise Name *</label>
-      <input id="ex-name" type="text" placeholder="e.g. Bench Press" maxlength="60" />
+      <div>
+        <label>Exercise Name *</label>
+        <input id="ex-name" type="text" placeholder="e.g. Bench Press" maxlength="60" oninput="onExNameInput()" />
+        <p id="ex-lib-hint" class="ex-lib-hint"></p>
+      </div>
       <div class="row">
         <div>
           <label>Weight *</label>

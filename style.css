@@ -685,6 +685,22 @@ main {
 }
 .lib-item:active { background: rgba(250, 204, 21, 0.18); }
 
+.lib-item.selected {
+  background: rgba(250, 204, 21, 0.14);
+  color: var(--accent);
+  font-weight: 700;
+}
+.lib-item.selected:hover { background: rgba(250, 204, 21, 0.22); }
+
+.ex-lib-hint {
+  font-size: 0.71rem;
+  color: var(--accent);
+  opacity: 0.80;
+  margin-top: 0.28rem;
+  min-height: 1rem;
+  letter-spacing: 0.2px;
+}
+
 .lib-empty {
   font-size: 0.82rem;
   color: var(--text-3);

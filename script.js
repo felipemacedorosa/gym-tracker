@@ -590,6 +590,8 @@ const EXERCISE_LIBRARY = {
   'Core':      ['Plank','Hanging Leg Raise','Cable Crunch','Russian Twist','Sit-Ups','Ab Wheel Rollout']
 };
 
+let selectedLibraryName = '';
+
 function renderLibrary(query = '') {
   const q    = query.trim().toLowerCase();
   const list = document.getElementById('lib-list');
@@ -602,11 +604,17 @@ function renderLibrary(query = '') {
     any = true;
     html += `<div class="lib-category">${cat}</div>`;
     matches.forEach(name => {
-      html += `<button class="lib-item" type="button" onclick="pickExercise(${JSON.stringify(name)})">${escHtml(name)}</button>`;
+      const sel = name === selectedLibraryName ? ' selected' : '';
+      html += `<button class="lib-item${sel}" type="button" data-name="${escHtml(name)}" onclick="pickExercise(${JSON.stringify(name)})">${escHtml(name)}</button>`;
     });
   }
 
   list.innerHTML = any ? html : '<p class="lib-empty">No exercises match.</p>';
+
+  if (selectedLibraryName) {
+    const sel = list.querySelector('.lib-item.selected');
+    if (sel) sel.scrollIntoView({ block: 'nearest' });
+  }
 }
 
 function filterLibrary() {
@@ -619,22 +627,45 @@ function toggleLibrary() {
   const open  = panel.classList.toggle('open');
   btn.textContent = open ? 'Browse exercise library ▾' : 'Browse exercise library ▸';
   if (open) {
-    renderLibrary();
     document.getElementById('lib-search').value = '';
+    renderLibrary(); // respects selectedLibraryName for highlight
     setTimeout(() => document.getElementById('lib-search').focus(), 50);
   }
 }
 
 function pickExercise(name) {
+  selectedLibraryName = name;
   document.getElementById('ex-name').value = name;
-  document.getElementById('lib-panel').classList.remove('open');
-  document.getElementById('lib-toggle').textContent = 'Browse exercise library ▸';
-  setTimeout(() => document.getElementById('ex-weight').focus(), 50);
+  // Update highlight in-place without closing the panel
+  document.querySelectorAll('#lib-list .lib-item').forEach(btn => {
+    btn.classList.toggle('selected', btn.dataset.name === name);
+  });
+  updateLibHint();
+}
+
+function onExNameInput() {
+  const val = document.getElementById('ex-name').value.trim().toLowerCase();
+  const all = Object.values(EXERCISE_LIBRARY).flat();
+  const match = all.find(e => e.toLowerCase() === val) || '';
+  selectedLibraryName = match;
+  // Sync highlight if library list is visible
+  document.querySelectorAll('#lib-list .lib-item').forEach(btn => {
+    btn.classList.toggle('selected', btn.dataset.name === match);
+  });
+  updateLibHint();
+}
+
+function updateLibHint() {
+  const hint = document.getElementById('ex-lib-hint');
+  if (hint) hint.textContent = selectedLibraryName ? 'Selected from library' : '';
 }
 
 function resetLibrary() {
+  selectedLibraryName = '';
   document.getElementById('lib-panel').classList.remove('open');
   document.getElementById('lib-toggle').textContent = 'Browse exercise library ▸';
+  const hint = document.getElementById('ex-lib-hint');
+  if (hint) hint.textContent = '';
 }
 
 // ── Keyboard shortcuts ────────────────────────────────────────
