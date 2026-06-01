@@ -924,3 +924,104 @@ main {
   color: var(--text);
   letter-spacing: 0.2px;
 }
+
+/* ═══════════════════════════════════════════════════════════
+   TOUCH & MOBILE
+═══════════════════════════════════════════════════════════ */
+
+/* Remove 300 ms tap delay and iOS blue-flash on all interactive elements */
+button, input, select, a, label {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ── Phones (≤ 600 px) ──────────────────────────────────── */
+@media (max-width: 600px) {
+
+  /* Header */
+  header { padding: 0.85rem 1rem; }
+  .header-sub { display: none; }
+  #btn-add-day { padding: 0.52rem 0.85rem; font-size: 0.83rem; }
+
+  /* Cards: single-column full-width grid */
+  main {
+    padding: 1rem;
+    grid-template-columns: 1fr;
+    gap: 0.9rem;
+  }
+  .day-body { padding: 0.85rem; }
+
+  /* Larger tap targets (≥ 40 px) */
+  .icon-btn     { width: 40px; height: 40px; border-radius: 8px; }
+  .btn-log      { padding: 0.55rem 0.75rem; font-size: 0.80rem; min-height: 40px; }
+  .btn-log-all  { padding: 0.45rem 0.9rem;  font-size: 0.79rem; min-height: 36px; }
+  .btn-add-exercise { padding: 0.72rem; }
+
+  /* Tabs: full-width, taller */
+  .tab { flex: 1; padding: 0.95rem 1rem; }
+
+  /* Progress */
+  #view-progress   { padding: 1rem; }
+  #progress-select { max-width: 100%; }
+
+  /* Log All scroll area */
+  .log-all-rows { max-height: 46vh; }
+
+  /* Weight/unit spans full width; sets + reps share the row beneath */
+  .row { grid-template-columns: 1fr 1fr; }
+  .row > div:first-child { grid-column: 1 / -1; }
+
+  /* Modals → bottom sheet */
+  .modal-overlay { align-items: flex-end; padding: 0; }
+
+  .modal {
+    max-width: 100%;
+    max-height: 92dvh;
+    overflow-y: auto;
+    border-radius: 22px 22px 0 0;
+    /* top padding handled by ::before drag handle; bottom clears home indicator */
+    padding: 0 1.25rem calc(1.75rem + env(safe-area-inset-bottom, 0px));
+    animation: modalSlideUp 0.32s cubic-bezier(0.32, 1.1, 0.60, 1) both;
+  }
+
+  /* Drag-handle pill at the top of every bottom sheet */
+  .modal::before {
+    content: '';
+    width: 36px;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.18);
+    border-radius: 2px;
+    align-self: center;
+    margin-top: 0.85rem;
+    flex-shrink: 0;
+  }
+
+  .modal--wide { max-width: 100%; }
+}
+
+/* Slide-up animation used by bottom-sheet modals */
+@keyframes modalSlideUp {
+  from { opacity: 0.7; transform: translateY(50px); }
+  to   { opacity: 1;   transform: translateY(0); }
+}
+
+/* Disable hover effects on touch-only devices (prevents "stuck hover" after tap) */
+@media (hover: none) {
+  .day-card:hover         { transform: none; box-shadow: none; border-color: rgba(255,255,255,0.07); }
+  .btn-add-exercise:hover { background: rgba(250,204,21,0.04); border-color: rgba(250,204,21,0.28); transform: none; }
+  .icon-btn:hover         { background: none; border-color: transparent; }
+  .btn-log:hover          { background: rgba(250,204,21,0.12); }
+  .btn-log-all:hover      { background: rgba(250,204,21,0.10); border-color: rgba(250,204,21,0.30); }
+  .btn-primary:hover      { opacity: 1; transform: none; box-shadow: none; }
+  .btn-secondary:hover    { background: transparent; color: var(--text-2); border-color: rgba(255,255,255,0.10); }
+  #btn-add-day:hover      { opacity: 1; transform: none; box-shadow: none; }
+}
+
+/* Very small phones (iPhone SE, Galaxy A series) */
+@media (max-width: 380px) {
+  header  { padding: 0.75rem 0.875rem; }
+  main    { padding: 0.75rem; gap: 0.75rem; }
+  .day-body { padding: 0.75rem; }
+  #view-progress { padding: 0.75rem; }
+  .modal  { padding-left: 1rem; padding-right: 1rem; }
+}

@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Background -->
+  <rect width="512" height="512" rx="80" fill="#07070d"/>
+  <!-- Barbell (all pieces centred on y=256) -->
+  <g fill="#FACC15">
+    <!-- Left outer plate -->
+    <rect x="56"  y="144" width="56" height="224" rx="12"/>
+    <!-- Left inner plate (slightly dimmer via opacity) -->
+    <rect x="112" y="172" width="40" height="168" rx="8" opacity="0.78"/>
+    <!-- Grip bar -->
+    <rect x="152" y="236" width="208" height="40"  rx="6"/>
+    <!-- Right inner plate -->
+    <rect x="360" y="172" width="40" height="168" rx="8" opacity="0.78"/>
+    <!-- Right outer plate -->
+    <rect x="400" y="144" width="56" height="224" rx="12"/>
+  </g>
+</svg>

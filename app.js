@@ -31,3 +31,11 @@ window.addEventListener('resize', () => {
 });
 
 render();
+
+// Register service worker for offline/PWA support (requires HTTPS or localhost)
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./service-worker.js')
+      .catch(() => {}); // silently ignore in file:// or unsupported contexts
+  });
+}
