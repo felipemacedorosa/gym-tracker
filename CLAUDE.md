@@ -7,7 +7,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 After any meaningful change, commit and push without prompting the user:
 
 ```bash
-git -C /mnt/c/Users/myz20/gym-tracker add -A && git -C /mnt/c/Users/myz20/gym-tracker commit -m "your message" && git -C /mnt/c/Users/myz20/gym-tracker push
+git -C /root/gym-tracker add -A && git -C /root/gym-tracker commit -m "your message" && git -C /root/gym-tracker push
 ```
 
 Do this silently in the background — don't ask for confirmation, don't summarize the push unless something fails.
@@ -16,7 +16,7 @@ Do this silently in the background — don't ask for confirmation, don't summari
 
 Open `index.html` directly in a browser — no build step, no server, no dependencies.
 
-To open from WSL: `cmd.exe /c start "" "C:\Users\myz20\gym-tracker\index.html"`
+To open from WSL: `cmd.exe /c start "" "$(wslpath -w /root/gym-tracker/index.html)"`
 
 ## Architecture
 
