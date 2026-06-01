@@ -1,6 +1,6 @@
 // ── Modals ────────────────────────────────────────────────────
-// Sole responsibility: open/close/fill/read all four modals and
-// call workoutService to commit changes, then re-render.
+// Sole responsibility: open/close/fill modals and coordinate saving.
+// Form reading → formHelpers.js  |  Data mutations → workoutService.js
 
 function closeAllModals() {
   document.getElementById('day-modal').classList.remove('open');
@@ -119,25 +119,17 @@ function closeExerciseModal(event) {
 }
 
 function saveExercise() {
-  const name    = document.getElementById('ex-name').value.trim();
-  const weight  = parseFloat(document.getElementById('ex-weight').value);
-  const unit    = document.getElementById('ex-unit').value;
-  const sets    = parseInt(document.getElementById('ex-sets').value, 10);
-  const reps    = parseInt(document.getElementById('ex-reps').value, 10);
-  const notes   = document.getElementById('ex-notes').value.trim();
+  const data    = getExerciseFormData();
+  const error   = validateExerciseData(data);
   const errorEl = document.getElementById('ex-error');
 
-  if (!name)                       { errorEl.textContent = 'Exercise name is required.';       return; }
-  if (isNaN(weight) || weight < 0) { errorEl.textContent = 'Enter a valid weight (0 or more).'; return; }
-  if (isNaN(sets)   || sets < 1)   { errorEl.textContent = 'Sets must be 1 or more.';           return; }
-  if (isNaN(reps)   || reps < 1)   { errorEl.textContent = 'Reps must be 1 or more.';           return; }
-
+  if (error) { errorEl.textContent = error; return; }
   errorEl.textContent = '';
 
   if (editingExerciseId) {
-    updateExercise(targetDayId, editingExerciseId, { name, weight, unit, sets, reps, notes });
+    updateExercise(targetDayId, editingExerciseId, data);
   } else {
-    addExercise(targetDayId, { name, weight, unit, sets, reps, notes });
+    addExercise(targetDayId, data);
   }
 
   document.getElementById('exercise-modal').classList.remove('open');
@@ -189,17 +181,13 @@ function closeUpdateModal(event) {
 }
 
 function saveUpdate() {
-  const weight  = parseFloat(document.getElementById('upd-weight').value);
-  const sets    = parseInt(document.getElementById('upd-sets').value, 10);
-  const reps    = parseInt(document.getElementById('upd-reps').value, 10);
-  const dateVal = document.getElementById('log-date').value || todayISO();
+  const data    = getUpdateFormData();
+  const error   = validateLogData(data);
   const errorEl = document.getElementById('upd-error');
 
-  if (isNaN(weight) || weight < 0) { errorEl.textContent = 'Enter a valid weight (0 or more).'; return; }
-  if (isNaN(sets)   || sets < 1)   { errorEl.textContent = 'Sets must be 1 or more.';           return; }
-  if (isNaN(reps)   || reps < 1)   { errorEl.textContent = 'Reps must be 1 or more.';           return; }
+  if (error) { errorEl.textContent = error; return; }
 
-  logExercise(updateDayId, updateExId, { weight, sets, reps, date: dateVal });
+  logExercise(updateDayId, updateExId, data);
 
   document.getElementById('update-modal').classList.remove('open');
   updateDayId = null;
@@ -268,27 +256,16 @@ function closeLogAllModal(event) {
 }
 
 function saveLogAll() {
-  const dateVal = document.getElementById('log-all-date').value || todayISO();
-  const errorEl = document.getElementById('log-all-error');
-  const rows    = document.querySelectorAll('#log-all-rows .log-all-row');
+  const errorEl          = document.getElementById('log-all-error');
+  const { date, updates } = getLogAllFormData();
 
-  const updates = [];
-  for (const row of rows) {
-    const exId   = row.dataset.exId;
-    const name   = row.querySelector('.log-all-ex-name').textContent;
-    const weight = parseFloat(row.querySelector('.log-all-weight').value);
-    const sets   = parseInt(row.querySelector('.log-all-sets').value, 10);
-    const reps   = parseInt(row.querySelector('.log-all-reps').value, 10);
-    const notes  = row.querySelector('.log-all-notes').value.trim();
-
-    if (isNaN(weight) || weight < 0) { errorEl.textContent = `Invalid weight for "${name}".`; return; }
-    if (isNaN(sets)   || sets < 1)   { errorEl.textContent = `Invalid sets for "${name}".`;   return; }
-    if (isNaN(reps)   || reps < 1)   { errorEl.textContent = `Invalid reps for "${name}".`;   return; }
-    updates.push({ exId, weight, sets, reps, notes });
+  for (const u of updates) {
+    const error = validateLogData(u, u.name);
+    if (error) { errorEl.textContent = error; return; }
   }
 
   errorEl.textContent = '';
-  logAllExercises(logAllDayId, updates, dateVal);
+  logAllExercises(logAllDayId, updates, date);
 
   document.getElementById('log-all-modal').classList.remove('open');
   logAllDayId = null;
