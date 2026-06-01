@@ -7,7 +7,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 After any meaningful change, commit and push without prompting the user:
 
 ```bash
-git -C /root/gym-tracker add -A && git -C /root/gym-tracker commit -m "your message" && git -C /root/gym-tracker push
+git -C /mnt/c/Users/myz20/gym-tracker add -A && git -C /mnt/c/Users/myz20/gym-tracker commit -m "your message" && git -C /mnt/c/Users/myz20/gym-tracker push
 ```
 
 Do this silently in the background — don't ask for confirmation, don't summarize the push unless something fails.
@@ -16,15 +16,22 @@ Do this silently in the background — don't ask for confirmation, don't summari
 
 Open `index.html` directly in a browser — no build step, no server, no dependencies.
 
-To open from WSL: `cmd.exe /c start "" "$(wslpath -w /root/gym-tracker/index.html)"`
+To open from WSL: `cmd.exe /c start "" "C:\Users\myz20\gym-tracker\index.html"`
 
 ## Architecture
 
-Three files, no framework, no build toolchain:
+No framework, no build toolchain. Logic is split across eight plain `<script>` files loaded in order:
 
-- **`index.html`** — page structure, two views (`#view-workouts`, `#view-progress`), three modals (day, exercise, update), tab nav
+- **`index.html`** — page structure, two views (`#view-workouts`, `#view-progress`), four modals (day, exercise, update, log-all), tab nav
 - **`style.css`** — all styling; uses CSS custom properties defined in `:root`
-- **`script.js`** — all logic; no modules, functions are global
+- **`storage.js`** — `loadData`, `saveData`, `uid`; sole owner of localStorage
+- **`calculations.js`** — pure functions: `calc1RM`, `todayISO`, `fmtDate`, `parseDate`, `escHtml`
+- **`workoutService.js`** — all data mutations for days and exercises; no DOM access
+- **`exerciseLibrary.js`** — pre-made exercise picker (data, search, select, hint)
+- **`render.js`** — builds and inserts DOM for workout cards; reads storage, never writes
+- **`modals.js`** — open/close/fill/read all four modals; calls workoutService then re-renders
+- **`progress.js`** — progress tab: exercise selector and canvas 1RM chart
+- **`app.js`** — entry point: `switchTab`, keyboard shortcuts, resize listener, initial `render()`
 
 ### Data model (localStorage key: `gymTracker`)
 
