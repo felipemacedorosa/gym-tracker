@@ -115,10 +115,10 @@ function drawChart(canvas, data, unit) {
   for (let t = 0; t <= ticks; t++) {
     const v = minV + (range / ticks) * t;
     const y = yOf(v);
-    ctx.strokeStyle = 'rgba(255,255,255,0.06)';
+    ctx.strokeStyle = 'rgba(0,0,0,0.08)';
     ctx.lineWidth   = 1;
     ctx.beginPath(); ctx.moveTo(PAD.left, y); ctx.lineTo(PAD.left + W, y); ctx.stroke();
-    ctx.fillStyle  = 'rgba(255,255,255,0.32)';
+    ctx.fillStyle  = 'rgba(0,0,0,0.45)';
     ctx.font       = '11px Segoe UI, system-ui, sans-serif';
     ctx.textAlign  = 'right';
     ctx.fillText(v.toFixed(1), PAD.left - 8, y + 4);
@@ -128,7 +128,7 @@ function drawChart(canvas, data, unit) {
   ctx.save();
   ctx.translate(13, PAD.top + H / 2);
   ctx.rotate(-Math.PI / 2);
-  ctx.fillStyle = 'rgba(255,255,255,0.28)';
+  ctx.fillStyle = 'rgba(0,0,0,0.40)';
   ctx.font      = '11px Segoe UI, system-ui, sans-serif';
   ctx.textAlign = 'center';
   ctx.fillText(`Est. 1RM (${unit})`, 0, 0);
@@ -176,12 +176,12 @@ function drawChart(canvas, data, unit) {
     ctx.arc(x, y, 4.5, 0, Math.PI * 2);
     ctx.fillStyle   = '#FACC15';
     ctx.fill();
-    ctx.strokeStyle = '#07070d';
+    ctx.strokeStyle = '#f5f5fa';
     ctx.lineWidth   = 1.5;
     ctx.stroke();
 
     // Value label above dot
-    ctx.fillStyle = 'rgba(255,255,255,0.70)';
+    ctx.fillStyle = 'rgba(0,0,0,0.60)';
     ctx.font      = '10px Segoe UI, system-ui, sans-serif';
     ctx.textAlign = 'center';
     ctx.fillText(d.rm.toFixed(1), x, y - 13);
@@ -191,7 +191,7 @@ function drawChart(canvas, data, unit) {
       ctx.save();
       ctx.translate(x, PAD.top + H + 14);
       ctx.rotate(-0.65);
-      ctx.fillStyle = 'rgba(255,255,255,0.32)';
+      ctx.fillStyle = 'rgba(0,0,0,0.45)';
       ctx.font      = '10px Segoe UI, system-ui, sans-serif';
       ctx.textAlign = 'right';
       ctx.fillText(d.date, 0, 0);

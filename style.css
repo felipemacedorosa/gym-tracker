@@ -5,15 +5,15 @@
 
 :root {
   --accent:      #FACC15;
-  --accent-dim:  rgba(250, 204, 21, 0.12);
-  --accent-glow: rgba(250, 204, 21, 0.28);
-  --red:         #ff4560;
-  --red-dim:     rgba(255, 69, 96, 0.10);
-  --blue:        #4a9eff;
-  --blue-dim:    rgba(74, 158, 255, 0.10);
-  --text:        #f0f0f5;
-  --text-2:      #8a8a9e;
-  --text-3:      #44444e;
+  --accent-dim:  rgba(250, 204, 21, 0.14);
+  --accent-glow: rgba(250, 204, 21, 0.32);
+  --red:         #e0294a;
+  --red-dim:     rgba(224, 41, 74, 0.10);
+  --blue:        #2563eb;
+  --blue-dim:    rgba(37, 99, 235, 0.10);
+  --text:        #1a1a2e;
+  --text-2:      #5e5e78;
+  --text-3:      #9e9eb8;
   --r-sm: 8px;  --r-md: 12px;  --r-lg: 16px;  --r-xl: 20px;
 }
 
@@ -48,13 +48,13 @@
 ═══════════════════════════════════════════════════════════ */
 body {
   font-family: 'IBM Plex Sans', 'Segoe UI', system-ui, sans-serif;
-  background-color: #07070d;
+  background-color: #f5f5fa;
   background-image:
-    radial-gradient(ellipse 72% 56% at 102%   -2%,  rgba(250,204,21,0.15)   0%, transparent 55%),
+    radial-gradient(ellipse 72% 56% at 102%   -2%,  rgba(250,204,21,0.18)   0%, transparent 55%),
     radial-gradient(ellipse 58% 46% at  -3%  102%,  rgba(74,158,255,0.10)  0%, transparent 55%),
     radial-gradient(ellipse 46% 38% at  50%  115%,  rgba(139,92,246,0.07)  0%, transparent 55%),
-    url("data:image/svg+xml,%3Csvg width='1440' height='900' viewBox='0 0 1440 900' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='1260' cy='110' r='210' fill='none' stroke='%23FACC15' stroke-width='1.5' opacity='0.11'/%3E%3Ccircle cx='1260' cy='110' r='390' fill='none' stroke='%23FACC15' stroke-width='1' opacity='0.07'/%3E%3Ccircle cx='1260' cy='110' r='570' fill='none' stroke='%23FACC15' stroke-width='1' opacity='0.045'/%3E%3Ccircle cx='1260' cy='110' r='750' fill='none' stroke='%23FACC15' stroke-width='1' opacity='0.025'/%3E%3Ccircle cx='110' cy='820' r='170' fill='none' stroke='%234a9eff' stroke-width='1.5' opacity='0.09'/%3E%3Ccircle cx='110' cy='820' r='320' fill='none' stroke='%234a9eff' stroke-width='1' opacity='0.06'/%3E%3Ccircle cx='110' cy='820' r='470' fill='none' stroke='%234a9eff' stroke-width='1' opacity='0.035'/%3E%3Cline x1='-80' y1='520' x2='640' y2='-80' stroke='white' stroke-width='1' opacity='0.026'/%3E%3Cline x1='180' y1='720' x2='920' y2='-20' stroke='white' stroke-width='1' opacity='0.020'/%3E%3Cline x1='480' y1='900' x2='1220' y2='180' stroke='white' stroke-width='1' opacity='0.015'/%3E%3Cline x1='820' y1='900' x2='1440' y2='480' stroke='white' stroke-width='1' opacity='0.011'/%3E%3C/svg%3E"),
-    radial-gradient(circle, rgba(255,255,255,0.033) 1px, transparent 1px);
+    url("data:image/svg+xml,%3Csvg width='1440' height='900' viewBox='0 0 1440 900' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='1260' cy='110' r='210' fill='none' stroke='%23FACC15' stroke-width='1.5' opacity='0.22'/%3E%3Ccircle cx='1260' cy='110' r='390' fill='none' stroke='%23FACC15' stroke-width='1' opacity='0.13'/%3E%3Ccircle cx='1260' cy='110' r='570' fill='none' stroke='%23FACC15' stroke-width='1' opacity='0.08'/%3E%3Ccircle cx='1260' cy='110' r='750' fill='none' stroke='%23FACC15' stroke-width='1' opacity='0.05'/%3E%3Ccircle cx='110' cy='820' r='170' fill='none' stroke='%232563eb' stroke-width='1.5' opacity='0.14'/%3E%3Ccircle cx='110' cy='820' r='320' fill='none' stroke='%232563eb' stroke-width='1' opacity='0.09'/%3E%3Ccircle cx='110' cy='820' r='470' fill='none' stroke='%232563eb' stroke-width='1' opacity='0.05'/%3E%3Cline x1='-80' y1='520' x2='640' y2='-80' stroke='%231a1a2e' stroke-width='1' opacity='0.05'/%3E%3Cline x1='180' y1='720' x2='920' y2='-20' stroke='%231a1a2e' stroke-width='1' opacity='0.038'/%3E%3Cline x1='480' y1='900' x2='1220' y2='180' stroke='%231a1a2e' stroke-width='1' opacity='0.028'/%3E%3Cline x1='820' y1='900' x2='1440' y2='480' stroke='%231a1a2e' stroke-width='1' opacity='0.018'/%3E%3C/svg%3E"),
+    radial-gradient(circle, rgba(0,0,0,0.04) 1px, transparent 1px);
   background-size:    100% 100%, 100% 100%, 100% 100%, cover, 26px 26px;
   background-position: 0 0, 0 0, 0 0, center center, 0 0;
   background-repeat:  no-repeat, no-repeat, no-repeat, no-repeat, repeat;
@@ -72,10 +72,10 @@ header {
   position: sticky;
   top: 0;
   z-index: 50;
-  background: rgba(7, 7, 13, 0.82);
+  background: rgba(245, 245, 250, 0.88);
   backdrop-filter: blur(22px);
   -webkit-backdrop-filter: blur(22px);
-  border-bottom: 1px solid rgba(255,255,255,0.06);
+  border-bottom: 1px solid rgba(0,0,0,0.08);
   padding: 1.1rem 2rem;
   /* Push content below the iPhone notch/status bar in PWA standalone mode */
   padding-top: calc(env(safe-area-inset-top, 0px) + 1.1rem);
@@ -107,7 +107,7 @@ header::before {
   font-size: 1.3rem;
   font-weight: 800;
   letter-spacing: 0.2px;
-  background: linear-gradient(130deg, #ffffff 15%, #fef08a 60%, #FACC15 100%);
+  background: linear-gradient(130deg, #1a1a2e 15%, #92600a 60%, #FACC15 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -183,10 +183,10 @@ main {
    DAY CARDS
 ═══════════════════════════════════════════════════════════ */
 .day-card {
-  background: rgba(16, 16, 24, 0.80);
+  background: rgba(255, 255, 255, 0.82);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
-  border: 1px solid rgba(255,255,255,0.07);
+  border: 1px solid rgba(0,0,0,0.08);
   border-radius: var(--r-xl);
   overflow: hidden;
   animation: fadeSlideUp 0.45s ease both;
@@ -202,17 +202,17 @@ main {
 
 .day-card:hover {
   transform: translateY(-5px);
-  border-color: rgba(250,204,21,0.24);
+  border-color: rgba(250,204,21,0.40);
   box-shadow:
-    0 16px 48px rgba(0,0,0,0.45),
-    0 0 0 1px rgba(250,204,21,0.08),
-    0 0 40px rgba(250,204,21,0.04);
+    0 16px 48px rgba(0,0,0,0.12),
+    0 0 0 1px rgba(250,204,21,0.18),
+    0 0 40px rgba(250,204,21,0.08);
 }
 
 /* Card header bar */
 .day-header {
-  background: rgba(6, 6, 12, 0.70);
-  border-bottom: 1px solid rgba(255,255,255,0.05);
+  background: rgba(252, 249, 235, 0.90);
+  border-bottom: 1px solid rgba(0,0,0,0.07);
   border-left: 3px solid var(--accent);
   padding: 0.9rem 1rem 0.9rem 1.1rem;
   display: flex;
@@ -260,8 +260,8 @@ main {
 .exercise-list { display: flex; flex-direction: column; gap: 0.5rem; }
 
 .exercise-item {
-  background: rgba(8, 8, 14, 0.58);
-  border: 1px solid rgba(255,255,255,0.05);
+  background: rgba(250, 250, 255, 0.78);
+  border: 1px solid rgba(0,0,0,0.07);
   border-radius: var(--r-md);
   padding: 0.78rem 0.9rem;
   display: flex;
@@ -272,8 +272,8 @@ main {
   transition: border-color 0.2s, background 0.2s;
 }
 .exercise-item:hover {
-  border-color: rgba(255,255,255,0.10);
-  background: rgba(18, 18, 26, 0.65);
+  border-color: rgba(0,0,0,0.12);
+  background: rgba(245, 245, 255, 0.90);
 }
 
 .exercise-info { flex: 1; min-width: 0; }
@@ -337,7 +337,7 @@ main {
   max-height: 0;
   overflow: hidden;
   opacity: 0;
-  border-left: 2px solid rgba(255,255,255,0.07);
+  border-left: 2px solid rgba(0,0,0,0.10);
   padding-left: 0.65rem;
   /* Smooth slide + fade */
   transition: max-height 0.38s ease, opacity 0.28s ease, margin-top 0.28s ease;
@@ -443,7 +443,7 @@ main {
   display: none;
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.74);
+  background: rgba(0,0,0,0.48);
   z-index: 100;
   align-items: center;
   justify-content: center;
@@ -455,19 +455,19 @@ main {
 }
 
 .modal {
-  background: rgba(12, 12, 20, 0.96);
+  background: rgba(255, 255, 255, 0.97);
   backdrop-filter: blur(30px);
   -webkit-backdrop-filter: blur(30px);
-  border: 1px solid rgba(255,255,255,0.10);
+  border: 1px solid rgba(0,0,0,0.10);
   border-radius: var(--r-xl);
   padding: 1.85rem;
   width: 100%;
   max-width: 480px;
   /* Top accent line on modal */
   box-shadow:
-    0 28px 80px rgba(0,0,0,0.70),
-    0 0 0 1px rgba(250,204,21,0.07),
-    inset 0 1px 0 rgba(255,255,255,0.08);
+    0 28px 80px rgba(0,0,0,0.16),
+    0 0 0 1px rgba(250,204,21,0.10),
+    inset 0 1px 0 rgba(255,255,255,0.90);
   display: flex;
   flex-direction: column;
   gap: 0.85rem;
@@ -492,13 +492,13 @@ main {
   margin-bottom: 0.32rem;
 }
 
-/* Dark glass form inputs */
+/* Light form inputs */
 .modal input,
 .modal select {
   width: 100%;
   padding: 0.62rem 0.9rem;
-  background: rgba(5, 5, 10, 0.80);
-  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(245, 245, 252, 0.92);
+  border: 1px solid rgba(0,0,0,0.12);
   border-radius: var(--r-sm);
   color: var(--text);
   font-size: 0.93rem;
@@ -508,7 +508,7 @@ main {
   appearance: none;
   -webkit-appearance: none;
 }
-.modal input[type="date"] { color-scheme: dark; }
+.modal input[type="date"] { color-scheme: light; }
 .modal input::placeholder { color: var(--text-3); }
 .modal input:focus,
 .modal select:focus {
@@ -569,7 +569,7 @@ main {
   font-family: 'Space Grotesk', system-ui, sans-serif;
   background: transparent;
   color: var(--text-2);
-  border: 1px solid rgba(255,255,255,0.10);
+  border: 1px solid rgba(0,0,0,0.15);
   padding: 0.62rem 1.2rem;
   border-radius: var(--r-sm);
   font-size: 0.9rem;
@@ -578,9 +578,9 @@ main {
   transition: background 0.18s, color 0.18s, border-color 0.18s;
 }
 .btn-secondary:hover {
-  background: rgba(255,255,255,0.06);
+  background: rgba(0,0,0,0.05);
   color: var(--text);
-  border-color: rgba(255,255,255,0.18);
+  border-color: rgba(0,0,0,0.25);
 }
 .btn-secondary:active { transform: scale(0.97); }
 
@@ -669,8 +669,8 @@ main {
 #lib-search {
   width: 100%;
   padding: 0.5rem 0.85rem;
-  background: rgba(5, 5, 10, 0.80);
-  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(245, 245, 252, 0.92);
+  border: 1px solid rgba(0,0,0,0.10);
   border-radius: var(--r-sm);
   color: var(--text);
   font-size: 0.88rem;
@@ -747,10 +747,10 @@ main {
 .tab-bar {
   display: flex;
   justify-content: center;
-  background: rgba(7, 7, 13, 0.75);
+  background: rgba(245, 245, 250, 0.88);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
 }
 
 .tab {
@@ -794,8 +794,8 @@ main {
 }
 
 #progress-select {
-  background: rgba(12, 12, 20, 0.85);
-  border: 1px solid rgba(255, 255, 255, 0.09);
+  background: rgba(248, 248, 252, 0.92);
+  border: 1px solid rgba(0, 0, 0, 0.12);
   border-radius: var(--r-sm);
   color: var(--text);
   font-size: 0.95rem;
@@ -827,10 +827,10 @@ main {
 .progress-stat {
   flex: 1;
   min-width: 140px;
-  background: rgba(16, 16, 24, 0.80);
+  background: rgba(255, 255, 255, 0.82);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(0, 0, 0, 0.08);
   border-radius: var(--r-lg);
   padding: 1rem 1.25rem;
   display: flex;
@@ -857,10 +857,10 @@ main {
 /* Canvas chart wrapper */
 .chart-container {
   display: none; /* shown via JS */
-  background: rgba(16, 16, 24, 0.80);
+  background: rgba(255, 255, 255, 0.82);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(0, 0, 0, 0.08);
   border-radius: var(--r-lg);
   padding: 1rem 0.5rem 0.5rem;
   overflow: hidden;
@@ -912,8 +912,8 @@ main {
 }
 
 .log-all-row {
-  background: rgba(8, 8, 14, 0.55);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(248, 248, 255, 0.78);
+  border: 1px solid rgba(0, 0, 0, 0.08);
   border-radius: var(--r-md);
   padding: 0.85rem 0.9rem;
   display: flex;
@@ -993,7 +993,7 @@ button, input, select, a, label {
     content: '';
     width: 36px;
     height: 4px;
-    background: rgba(255, 255, 255, 0.18);
+    background: rgba(0, 0, 0, 0.18);
     border-radius: 2px;
     align-self: center;
     margin-top: 0.85rem;
@@ -1011,13 +1011,13 @@ button, input, select, a, label {
 
 /* Disable hover effects on touch-only devices (prevents "stuck hover" after tap) */
 @media (hover: none) {
-  .day-card:hover         { transform: none; box-shadow: none; border-color: rgba(255,255,255,0.07); }
+  .day-card:hover         { transform: none; box-shadow: none; border-color: rgba(0,0,0,0.08); }
   .btn-add-exercise:hover { background: rgba(250,204,21,0.04); border-color: rgba(250,204,21,0.28); transform: none; }
   .icon-btn:hover         { background: none; border-color: transparent; }
   .btn-log:hover          { background: rgba(250,204,21,0.12); }
   .btn-log-all:hover      { background: rgba(250,204,21,0.10); border-color: rgba(250,204,21,0.30); }
   .btn-primary:hover      { opacity: 1; transform: none; box-shadow: none; }
-  .btn-secondary:hover    { background: transparent; color: var(--text-2); border-color: rgba(255,255,255,0.10); }
+  .btn-secondary:hover    { background: transparent; color: var(--text-2); border-color: rgba(0,0,0,0.15); }
   #btn-add-day:hover      { opacity: 1; transform: none; box-shadow: none; }
 }
 
