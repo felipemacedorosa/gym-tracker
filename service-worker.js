@@ -1,5 +1,5 @@
 // Cache name — bump the version string to force an update on all clients
-const CACHE = 'gym-tracker-v1';
+const CACHE = 'gym-tracker-v2';
 
 // All files that make up the app shell
 const PRECACHE = [

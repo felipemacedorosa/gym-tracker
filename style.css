@@ -58,7 +58,7 @@ body {
   background-size:    100% 100%, 100% 100%, 100% 100%, cover, 26px 26px;
   background-position: 0 0, 0 0, 0 0, center center, 0 0;
   background-repeat:  no-repeat, no-repeat, no-repeat, no-repeat, repeat;
-  background-attachment: fixed;
+  background-attachment: scroll;
   color: var(--text);
   min-height: 100vh;
   line-height: 1.5;
@@ -943,7 +943,7 @@ button, input, select, a, label {
 @media (max-width: 600px) {
 
   /* Header */
-  header { padding: 0.85rem 1rem; }
+  header { padding: 0.85rem 1rem; padding-top: calc(env(safe-area-inset-top, 0px) + 0.85rem); }
   .header-sub { display: none; }
   #btn-add-day { padding: 0.52rem 0.85rem; font-size: 0.83rem; }
 
@@ -1023,7 +1023,7 @@ button, input, select, a, label {
 
 /* Very small phones (iPhone SE, Galaxy A series) */
 @media (max-width: 380px) {
-  header  { padding: 0.75rem 0.875rem; }
+  header  { padding: 0.75rem 0.875rem; padding-top: calc(env(safe-area-inset-top, 0px) + 0.75rem); }
   main    { padding: 0.75rem; gap: 0.75rem; }
   .day-body { padding: 0.75rem; }
   #view-progress { padding: 0.75rem; }
